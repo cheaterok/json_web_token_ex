@@ -10,9 +10,7 @@ defmodule JsonWebTokenVivox.Jwt do
   alias JsonWebTokenVivox.Jws
 
   @algorithm_default "HS256"
-  @header_default %{typ: "JWT"}
-  # JOSE header types from: https://tools.ietf.org/html/rfc7515
-  @header_jose_keys [:alg, :jku, :jwk, :kid, :x5u, :x5c, :x5t, :"x5t#S256", :typ, :cty, :crit]
+  @header_default %{}
 
   @doc """
   Return a JSON Web Token (JWT), a string representing a set of claims as a JSON object that is
@@ -22,14 +20,14 @@ defmodule JsonWebTokenVivox.Jwt do
       iex> claims = %{iss: "joe", exp: 1300819380, "http://example.com/is_root": true}
       ...> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
       ...> JsonWebTokenVivox.Jwt.sign(claims, %{key: key})
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.Ktfu3EdLz0SpuTIMpMoRZMtZsCATWJHeDEBGrsZE6LI"
+      "e30.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.plU1Xpbfj9aoI6L-UH8vN-tmunhzV_yCMT3Y80yviUw"
 
   see http://tools.ietf.org/html/rfc7519#section-7.1
   """
   def sign(claims, options) do
     header = config_header(options)
     payload = claims_to_json(claims)
-    jws_message(header, payload, options[:key], options[:alg])
+    jws_message(header, payload, options[:key], header[:alg])
   end
 
   @doc """
@@ -37,11 +35,14 @@ defmodule JsonWebTokenVivox.Jwt do
 
   ## Example
       iex> JsonWebTokenVivox.Jwt.config_header(alg: "RS256", key: "key")
-      %{typ: "JWT", alg: "RS256"}
+      %{alg: "RS256"}
 
   Filters out unsupported claims options and ignores any encryption keys
   """
-  def config_header(options) when is_map(options), do: %{alg: options[:alg]}
+  def config_header(options) when is_map(options) do
+    @header_default
+    |> Map.put(:alg, algorithm(options))
+  end
   def config_header(options) when is_list(options) do
     options |> Map.new |> config_header
   end
@@ -72,7 +73,7 @@ defmodule JsonWebTokenVivox.Jwt do
   Return a tuple {ok: claims (map)} if the signature is verified, or {:error, "invalid"} otherwise
 
   ## Example
-      iex> jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.Ktfu3EdLz0SpuTIMpMoRZMtZsCATWJHeDEBGrsZE6LI"
+      iex> jwt = "e30.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.plU1Xpbfj9aoI6L-UH8vN-tmunhzV_yCMT3Y80yviUw"
       ...> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
       ...> JsonWebTokenVivox.Jwt.verify(jwt, %{key: key})
       {:ok, %{iss: "joe", exp: 1300819380, "http://example.com/is_root": true}}

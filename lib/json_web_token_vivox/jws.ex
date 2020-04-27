@@ -16,11 +16,11 @@ defmodule JsonWebTokenVivox.Jws do
   ## Example
       iex> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
       ...> JsonWebTokenVivox.Jws.sign(%{alg: "HS256"}, "payload", key)
-      "eyJhbGciOiJIUzI1NiJ9.cGF5bG9hZA.uVTaOdyzp_f4mT_hfzU8LnCzdmlVC4t2itHDEYUZym4"
+      "e30.cGF5bG9hZA.2aN7KNhY3VzF5NiiJ01_zkBvtHj9RoDZYL2ZWmnidKQ"
   """
   def sign(header, payload, key) do
-    {alg, header} = algorithm(header)
-    signing_input = signing_input(header, payload)
+    {alg, new_header} = algorithm(header)
+    signing_input = signing_input(new_header, payload)
     "#{signing_input}.#{signature(alg, key, signing_input)}"
   end
 
@@ -34,7 +34,8 @@ defmodule JsonWebTokenVivox.Jws do
   see http://tools.ietf.org/html/rfc7515#page-47
   """
   def unsecured_message(header, payload) do
-    check_alg_value_none(algorithm header)
+    {alg, _} = algorithm(header)
+    check_alg_value_none(alg)
     "#{signing_input(header, payload)}." # note the trailing "."
   end
 

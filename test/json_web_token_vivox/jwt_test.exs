@@ -57,30 +57,30 @@ defmodule JsonWebTokenVivox.JwtTest do
   end
 
   test "config_header/1 w key, w/o alg returns default alg and filters key" do
-    assert Jwt.config_header(key: @hs256_key) == %{typ: "JWT", alg: "HS256"}
+    assert Jwt.config_header(key: @hs256_key) == %{alg: "HS256"}
   end
 
   test "config_header/1 w key, w alg returns alg and filters key" do
-    assert Jwt.config_header(alg: "RS256", key: "rs_256_key") == %{typ: "JWT", alg: "RS256"}
+    assert Jwt.config_header(alg: "RS256", key: "rs_256_key") == %{alg: "RS256"}
   end
 
   test "config_header/1 w key, w alg empty string returns default alg" do
-    assert Jwt.config_header(alg: "", key: @hs256_key) == %{typ: "JWT", alg: "HS256"}
+    assert Jwt.config_header(alg: "", key: @hs256_key) == %{alg: "HS256"}
   end
 
   test "config_header/1 w key, w alg nil returns default alg" do
-    assert Jwt.config_header(alg: nil, key: @hs256_key) == %{typ: "JWT", alg: "HS256"}
+    assert Jwt.config_header(alg: nil, key: @hs256_key) == %{alg: "HS256"}
   end
 
   test "config_header/1 w/o key, w alg 'none'" do
-    assert Jwt.config_header(alg: "none") == %{typ: "JWT", alg: "none"}
+    assert Jwt.config_header(alg: "none") == %{alg: "none"}
   end
 
   test "config_header/1 with key and key id includes the key id" do
-    assert Jwt.config_header(key: @hs256_key, kid: @key_id) == %{typ: "JWT", alg: "HS256", kid: "test-key"}
+    assert Jwt.config_header(key: @hs256_key, kid: @key_id) == %{alg: "HS256"}
   end
 
   test "config_header/1 excludes header that is not registered" do
-    assert Jwt.config_header(key: @hs256_key, notstandard: "value") == %{typ: "JWT", alg: "HS256"}
+    assert Jwt.config_header(key: @hs256_key, notstandard: "value") == %{alg: "HS256"}
   end
 end

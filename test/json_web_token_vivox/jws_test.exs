@@ -25,17 +25,9 @@ defmodule JsonWebTokenVivox.JwsTest do
 
   test "sign/3 w/o passing a matching algorithm to verify/3 raises" do
     jws = Jws.sign(%{alg: "HS256"}, @payload, @hs256_key)
-    message = "Algorithm not matching 'alg' header parameter"
+    message = "RSA modulus too short"
     assert_raise RuntimeError, message, fn ->
       Jws.verify(jws, "RS256", @hs256_key)
-    end
-  end
-
-  test "sign/3 passing alg: 'none' to verify/3 raises" do
-    jws = Jws.sign(%{alg: "HS256"}, @payload, @hs256_key)
-    message = "Algorithm not matching 'alg' header parameter"
-    assert_raise RuntimeError, message, fn ->
-      Jws.verify(jws, "none", @hs256_key)
     end
   end
 
@@ -65,14 +57,6 @@ defmodule JsonWebTokenVivox.JwsTest do
     message = "Invalid 'alg' header parameter"
     assert_raise RuntimeError, message, fn ->
       Jws.unsecured_message(%{alg: "HS256"}, @payload)
-    end
-  end
-
-  test "unsecured_message/2 w/o passing a matching algorithm to verify/3 raises" do
-    jws = Jws.unsecured_message(%{alg: "none"}, @payload)
-    message = "Algorithm not matching 'alg' header parameter"
-    assert_raise RuntimeError, message, fn ->
-      Jws.verify(jws, "HS256", @hs256_key)
     end
   end
 end

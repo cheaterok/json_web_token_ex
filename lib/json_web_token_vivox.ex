@@ -15,7 +15,7 @@ defmodule JsonWebTokenVivox do
       iex> claims = %{iss: "joe", exp: 1300819380, "http://example.com/is_root": true}
       ...> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
       ...> JsonWebTokenVivox.sign(claims, %{key: key})
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.Ktfu3EdLz0SpuTIMpMoRZMtZsCATWJHeDEBGrsZE6LI"
+      "e30.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.plU1Xpbfj9aoI6L-UH8vN-tmunhzV_yCMT3Y80yviUw"
 
   see http://tools.ietf.org/html/rfc7519#section-7.1
   """
@@ -26,7 +26,7 @@ defmodule JsonWebTokenVivox do
   or {:error, "invalid"} otherwise
 
   ## Example
-      iex> jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.Ktfu3EdLz0SpuTIMpMoRZMtZsCATWJHeDEBGrsZE6LI"
+      iex> jwt = "e30.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.plU1Xpbfj9aoI6L-UH8vN-tmunhzV_yCMT3Y80yviUw"
       ...> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
       ...> JsonWebTokenVivox.verify(jwt, %{key: key})
       {:ok, %{iss: "joe", exp: 1300819380, "http://example.com/is_root": true}}
