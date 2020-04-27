@@ -1,7 +1,7 @@
-defmodule JsonWebToken.JwsTest do
+defmodule JsonWebTokenVivox.JwsTest do
   use ExUnit.Case
 
-  alias JsonWebToken.Jws
+  alias JsonWebTokenVivox.Jws
 
   doctest Jws
 

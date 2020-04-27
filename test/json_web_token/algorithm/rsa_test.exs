@@ -1,8 +1,8 @@
-defmodule JsonWebToken.Algorithm.RsaTest do
+defmodule JsonWebTokenVivox.Algorithm.RsaTest do
   use ExUnit.Case
 
-  alias JsonWebToken.Algorithm.Rsa
-  alias JsonWebToken.Algorithm.RsaUtil
+  alias JsonWebTokenVivox.Algorithm.Rsa
+  alias JsonWebTokenVivox.Algorithm.RsaUtil
 
   doctest Rsa
 

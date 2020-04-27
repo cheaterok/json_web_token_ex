@@ -1,8 +1,8 @@
-defmodule JsonWebToken.Algorithm.RsaUtilTest do
+defmodule JsonWebTokenVivox.Algorithm.RsaUtilTest do
   use ExUnit.Case
 
-  alias JsonWebToken.Algorithm.Rsa
-  alias JsonWebToken.Algorithm.RsaUtil
+  alias JsonWebTokenVivox.Algorithm.Rsa
+  alias JsonWebTokenVivox.Algorithm.RsaUtil
 
   @path_to_keys "test/fixtures/rsa"
 

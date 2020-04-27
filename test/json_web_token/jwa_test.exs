@@ -1,9 +1,9 @@
-defmodule JsonWebToken.JwaTest do
+defmodule JsonWebTokenVivox.JwaTest do
   use ExUnit.Case
 
-  alias JsonWebToken.Algorithm.EcdsaUtil
-  alias JsonWebToken.Algorithm.RsaUtil
-  alias JsonWebToken.Jwa
+  alias JsonWebTokenVivox.Algorithm.EcdsaUtil
+  alias JsonWebTokenVivox.Algorithm.RsaUtil
+  alias JsonWebTokenVivox.Jwa
 
   doctest Jwa
 
@@ -36,7 +36,7 @@ defmodule JsonWebToken.JwaTest do
    end
 
   test "HS256 destructured_alg/1" do
-    assert Jwa.destructured_alg("HS256") == {JsonWebToken.Algorithm.Hmac, :sha256}
+    assert Jwa.destructured_alg("HS256") == {JsonWebTokenVivox.Algorithm.Hmac, :sha256}
   end
 
   defp invalid_algorithm(string) do

@@ -1,4 +1,4 @@
-defmodule JsonWebToken.Algorithm.RsaUtil do
+defmodule JsonWebTokenVivox.Algorithm.RsaUtil do
   @moduledoc "Encryption keys for test"
 
   @doc "Load an RSA private key from a string"

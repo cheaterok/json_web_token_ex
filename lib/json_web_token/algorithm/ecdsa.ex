@@ -1,12 +1,12 @@
-defmodule JsonWebToken.Algorithm.Ecdsa do
+defmodule JsonWebTokenVivox.Algorithm.Ecdsa do
   @moduledoc """
   Sign or verify a JSON Web Signature (JWS) structure using EDCSA
 
   see http://tools.ietf.org/html/rfc7518#section-3.4
   """
 
-  alias JsonWebToken.Algorithm.Common
-  alias JsonWebToken.Util
+  alias JsonWebTokenVivox.Algorithm.Common
+  alias JsonWebTokenVivox.Util
 
   # attr: {curve, der_byte_count_minimum_threshold}
   @sha_bits_to_attr %{
@@ -20,7 +20,7 @@ defmodule JsonWebToken.Algorithm.Ecdsa do
 
   ## Example
       iex> {_, private_key} = EcdsaUtil.key_pair
-      ...> der_encoded_mac = JsonWebToken.Algorithm.Ecdsa.sign(:sha256, private_key, "signing_input")
+      ...> der_encoded_mac = JsonWebTokenVivox.Algorithm.Ecdsa.sign(:sha256, private_key, "signing_input")
       ...> byte_size(der_encoded_mac) > 69
       true
   """
@@ -40,9 +40,9 @@ defmodule JsonWebToken.Algorithm.Ecdsa do
   Predicate to verify a der-encoded digital signature, or Message Authentication Code (MAC)
 
   ## Example
-      iex> {public_key, private_key} = JsonWebToken.Algorithm.EcdsaUtil.key_pair
-      ...> mac = JsonWebToken.Algorithm.Ecdsa.sign(:sha256, private_key, "signing_input")
-      ...> JsonWebToken.Algorithm.Ecdsa.verify?(mac, :sha256, public_key, "signing_input")
+      iex> {public_key, private_key} = JsonWebTokenVivox.Algorithm.EcdsaUtil.key_pair
+      ...> mac = JsonWebTokenVivox.Algorithm.Ecdsa.sign(:sha256, private_key, "signing_input")
+      ...> JsonWebTokenVivox.Algorithm.Ecdsa.verify?(mac, :sha256, public_key, "signing_input")
       true
   """
   def verify?(mac, sha_bits, public_key, signing_input) do

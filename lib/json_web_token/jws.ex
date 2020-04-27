@@ -1,12 +1,12 @@
-defmodule JsonWebToken.Jws do
+defmodule JsonWebTokenVivox.Jws do
   @moduledoc """
   Represent content to be secured with digital signatures or Message Authentication Codes (MACs)
 
   see http://tools.ietf.org/html/rfc7515
   """
 
-  alias JsonWebToken.Jwa
-  alias JsonWebToken.Util
+  alias JsonWebTokenVivox.Jwa
+  alias JsonWebTokenVivox.Util
 
   @signed_message_parts 3
 
@@ -15,11 +15,11 @@ defmodule JsonWebToken.Jws do
 
   ## Example
       iex> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
-      ...> JsonWebToken.Jws.sign(%{alg: "HS256"}, "payload", key)
+      ...> JsonWebTokenVivox.Jws.sign(%{alg: "HS256"}, "payload", key)
       "eyJhbGciOiJIUzI1NiJ9.cGF5bG9hZA.uVTaOdyzp_f4mT_hfzU8LnCzdmlVC4t2itHDEYUZym4"
   """
   def sign(header, payload, key) do
-    alg = algorithm(header)
+    {alg, header} = algorithm(header)
     signing_input = signing_input(header, payload)
     "#{signing_input}.#{signature(alg, key, signing_input)}"
   end
@@ -28,7 +28,7 @@ defmodule JsonWebToken.Jws do
   Return a JWS that provides no integrity protection (i.e. lacks a signature)
 
   ## Example
-      iex> JsonWebToken.Jws.unsecured_message(%{alg: "none"}, "payload")
+      iex> JsonWebTokenVivox.Jws.unsecured_message(%{alg: "none"}, "payload")
       "eyJhbGciOiJub25lIn0.cGF5bG9hZA."
 
   see http://tools.ietf.org/html/rfc7515#page-47
@@ -39,7 +39,7 @@ defmodule JsonWebToken.Jws do
   end
 
   defp algorithm(header) do
-    Util.validate_present(header[:alg])
+    {Util.validate_present(header[:alg]), Map.delete(header, :alg)}
   end
 
   defp signing_input(header, payload) do
@@ -70,17 +70,16 @@ defmodule JsonWebToken.Jws do
   ## Example
       iex> jws = "eyJhbGciOiJIUzI1NiJ9.cGF5bG9hZA.uVTaOdyzp_f4mT_hfzU8LnCzdmlVC4t2itHDEYUZym4"
       ...> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
-      ...> JsonWebToken.Jws.verify(jws, "HS256", key)
+      ...> JsonWebTokenVivox.Jws.verify(jws, "HS256", key)
       {:ok, "eyJhbGciOiJIUzI1NiJ9.cGF5bG9hZA.uVTaOdyzp_f4mT_hfzU8LnCzdmlVC4t2itHDEYUZym4"}
   """
   def verify(jws, algorithm, key \\ nil) do
-    validate_alg_matched(jws, algorithm)
+    validate_empty_header(jws)
     verified(jws, algorithm, key)
   end
 
-  defp validate_alg_matched(jws, algorithm) do
-    header = decoded_header_json_to_map(jws)
-    alg_match(algorithm(header) === algorithm)
+  defp validate_empty_header(jws) do
+    jws |> decoded_header_json_to_map() |> empty_header
   end
 
   defp decoded_header_json_to_map(jws) do
@@ -95,8 +94,8 @@ defmodule JsonWebToken.Jws do
   defp header_map({:error, _}), do: raise "Failed to decode header from JSON"
   defp header_map({:error, _, _}), do: raise "Failed to decode header from JSON"
 
-  defp alg_match(true), do: true
-  defp alg_match(false), do: raise "Algorithm not matching 'alg' header parameter"
+  defp empty_header(%{}), do: :ok
+  defp empty_header(_), do: raise "Header should be empty"
 
   defp verified(jws, "none", _), do: {:ok, jws}
   defp verified(jws, algorithm, key) do

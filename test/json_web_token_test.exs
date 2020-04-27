@@ -1,14 +1,14 @@
-defmodule JsonWebTokenTest do
+defmodule JsonWebTokenVivoxTest do
   use ExUnit.Case
 
-  doctest JsonWebToken
+  doctest JsonWebTokenVivox
 
   @hs256_key "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
   @claims %{iss: "joe", exp: 1300819380, "http://example.com/is_root": true}
 
   defp sign_does_verify(options, claims \\ @claims) do
-    jwt = JsonWebToken.sign(claims, options)
-    {:ok, verified_claims} = JsonWebToken.verify(jwt, options)
+    jwt = JsonWebTokenVivox.sign(claims, options)
+    {:ok, verified_claims} = JsonWebTokenVivox.verify(jwt, options)
     assert verified_claims === claims
   end
 

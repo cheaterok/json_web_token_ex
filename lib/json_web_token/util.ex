@@ -1,11 +1,11 @@
-defmodule JsonWebToken.Util do
+defmodule JsonWebTokenVivox.Util do
   @moduledoc "Utility functions"
 
   @doc """
   Predicate that compares two strings for equality in constant-time to avoid timing attacks
 
   ## Example
-      iex> JsonWebToken.Util.constant_time_compare?("a", "A")
+      iex> JsonWebTokenVivox.Util.constant_time_compare?("a", "A")
       false
 
   see: https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40#section-3.2
@@ -29,7 +29,7 @@ defmodule JsonWebToken.Util do
   Return the parameter passed in, unless it is nil or an empty string
 
   ## Example
-      iex> JsonWebToken.Util.validate_present("a")
+      iex> JsonWebTokenVivox.Util.validate_present("a")
       "a"
   """
   def validate_present(nil), do: raise "Param nil"

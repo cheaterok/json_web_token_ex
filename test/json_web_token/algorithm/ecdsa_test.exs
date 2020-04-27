@@ -1,8 +1,8 @@
-defmodule JsonWebToken.Algorithm.EcdsaTest do
+defmodule JsonWebTokenVivox.Algorithm.EcdsaTest do
   use ExUnit.Case
 
-  alias JsonWebToken.Algorithm.Ecdsa
-  alias JsonWebToken.Algorithm.EcdsaUtil
+  alias JsonWebTokenVivox.Algorithm.Ecdsa
+  alias JsonWebTokenVivox.Algorithm.EcdsaUtil
 
   doctest Ecdsa
 

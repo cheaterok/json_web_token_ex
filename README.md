@@ -18,7 +18,7 @@ An Elixir implementation of the JSON Web Token (JWT) standard [RFC 7519][rfc7519
 
 ## Usage
 
-Add JsonWebToken as a dependency in your `mix.exs` file:
+Add JsonWebTokenVivox as a dependency in your `mix.exs` file:
 
 ```elixir
 defp deps do
@@ -26,7 +26,7 @@ defp deps do
 end
 ```
 
-### JsonWebToken.sign(claims, options)
+### JsonWebTokenVivox.sign(claims, options)
 
 Returns a JSON Web Token string
 
@@ -44,23 +44,23 @@ Example
 ```elixir
 
 # sign with default algorithm, HMAC SHA256
-jwt = JsonWebToken.sign(%{foo: "bar"}, %{key: "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"})
+jwt = JsonWebTokenVivox.sign(%{foo: "bar"}, %{key: "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"})
 
 # sign with RSA SHA256 algorithm
-private_key = JsonWebToken.Algorithm.RsaUtil.private_key("path/to/", "key.pem")
+private_key = JsonWebTokenVivox.Algorithm.RsaUtil.private_key("path/to/", "key.pem")
 opts = %{
   alg: "RS256",
   key: private_key
 }
 
-jwt = JsonWebToken.sign(%{foo: "bar"}, opts)
+jwt = JsonWebTokenVivox.sign(%{foo: "bar"}, opts)
 
 # unsecured token (algorithm is "none")
-jwt = JsonWebToken.sign(%{foo: "bar"}, %{alg: "none"})
+jwt = JsonWebTokenVivox.sign(%{foo: "bar"}, %{alg: "none"})
 
 ```
 
-### JsonWebToken.verify(jwt, options)
+### JsonWebTokenVivox.verify(jwt, options)
 
 Returns a tuple, either:
 * \{:ok, claims\}, a JWT claims set map, if the Message Authentication Code (MAC), or signature, is verified
@@ -80,7 +80,7 @@ Example
 secure_jwt_example = "eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFt.cGxlLmNvbS9pc19yb290Ijp0cnVlfQ.dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
 
 # verify with default algorithm, HMAC SHA256
-{:ok, claims} = JsonWebToken.verify(secure_jwt_example, %{key: "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"})
+{:ok, claims} = JsonWebTokenVivox.verify(secure_jwt_example, %{key: "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"})
 
 # verify with RSA SHA256 algorithm
 opts = %{
@@ -88,12 +88,12 @@ opts = %{
   key: < RSA public key >
 }
 
-{:ok, claims} = JsonWebToken.verify(jwt, opts)
+{:ok, claims} = JsonWebTokenVivox.verify(jwt, opts)
 
 # unsecured token (algorithm is "none")
 unsecured_jwt_example = "eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFt."
 
-{:ok, claims} = JsonWebToken.verify(unsecured_jwt_example, %{alg: "none"})
+{:ok, claims} = JsonWebTokenVivox.verify(unsecured_jwt_example, %{alg: "none"})
 
 ```
 

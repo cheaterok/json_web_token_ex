@@ -1,4 +1,4 @@
-defmodule JsonWebToken.Jwt do
+defmodule JsonWebTokenVivox.Jwt do
   @moduledoc """
   Encode claims for transmission as a JSON object that is used as the payload of a JSON Web
   Signature (JWS) structure, enabling the claims to be integrity protected with a Message
@@ -7,7 +7,7 @@ defmodule JsonWebToken.Jwt do
   see http://tools.ietf.org/html/rfc7519
   """
 
-  alias JsonWebToken.Jws
+  alias JsonWebTokenVivox.Jws
 
   @algorithm_default "HS256"
   @header_default %{typ: "JWT"}
@@ -21,7 +21,7 @@ defmodule JsonWebToken.Jwt do
   ## Example
       iex> claims = %{iss: "joe", exp: 1300819380, "http://example.com/is_root": true}
       ...> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
-      ...> JsonWebToken.Jwt.sign(claims, %{key: key})
+      ...> JsonWebTokenVivox.Jwt.sign(claims, %{key: key})
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.Ktfu3EdLz0SpuTIMpMoRZMtZsCATWJHeDEBGrsZE6LI"
 
   see http://tools.ietf.org/html/rfc7519#section-7.1
@@ -29,25 +29,19 @@ defmodule JsonWebToken.Jwt do
   def sign(claims, options) do
     header = config_header(options)
     payload = claims_to_json(claims)
-    jws_message(header, payload, options[:key], header[:alg])
+    jws_message(header, payload, options[:key], options[:alg])
   end
 
   @doc """
   Given an options map, return a map of header options
 
   ## Example
-      iex> JsonWebToken.Jwt.config_header(alg: "RS256", key: "key")
+      iex> JsonWebTokenVivox.Jwt.config_header(alg: "RS256", key: "key")
       %{typ: "JWT", alg: "RS256"}
 
   Filters out unsupported claims options and ignores any encryption keys
   """
-  def config_header(options) when is_map(options) do
-    {jose_registered_headers, _other_headers} = Map.split(options, @header_jose_keys)
-
-    @header_default
-    |> Map.merge(jose_registered_headers)
-    |> Map.merge(%{alg: algorithm(options)})
-  end
+  def config_header(options) when is_map(options), do: %{alg: options[:alg]}
   def config_header(options) when is_list(options) do
     options |> Map.new |> config_header
   end
@@ -80,7 +74,7 @@ defmodule JsonWebToken.Jwt do
   ## Example
       iex> jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.Ktfu3EdLz0SpuTIMpMoRZMtZsCATWJHeDEBGrsZE6LI"
       ...> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
-      ...> JsonWebToken.Jwt.verify(jwt, %{key: key})
+      ...> JsonWebTokenVivox.Jwt.verify(jwt, %{key: key})
       {:ok, %{iss: "joe", exp: 1300819380, "http://example.com/is_root": true}}
 
   see http://tools.ietf.org/html/rfc7519#section-7.2

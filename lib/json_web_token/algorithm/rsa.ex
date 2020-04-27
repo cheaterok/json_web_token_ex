@@ -1,12 +1,12 @@
-defmodule JsonWebToken.Algorithm.Rsa do
+defmodule JsonWebTokenVivox.Algorithm.Rsa do
   @moduledoc """
   Sign or verify a JSON Web Signature (JWS) structure using RSASSA-PKCS-v1_5
 
   see http://tools.ietf.org/html/rfc7518#section-3.3
   """
 
-  alias JsonWebToken.Algorithm.Common
-  alias JsonWebToken.Util
+  alias JsonWebTokenVivox.Algorithm.Common
+  alias JsonWebTokenVivox.Util
 
   @key_bits_min 2048
 
@@ -14,9 +14,9 @@ defmodule JsonWebToken.Algorithm.Rsa do
   Return a Message Authentication Code (MAC)
 
   ## Example
-      iex> alias JsonWebToken.Algorithm.RsaUtil
+      iex> alias JsonWebTokenVivox.Algorithm.RsaUtil
       ...> private_key = RsaUtil.private_key("test/fixtures/rsa", "private_key.pem")
-      ...> mac = JsonWebToken.Algorithm.Rsa.sign(:sha256, private_key, "signing_input")
+      ...> mac = JsonWebTokenVivox.Algorithm.Rsa.sign(:sha256, private_key, "signing_input")
       ...> byte_size(mac)
       256
   """
@@ -29,12 +29,12 @@ defmodule JsonWebToken.Algorithm.Rsa do
   Predicate to verify a digital signature, or mac
 
   ## Example
-      iex> alias JsonWebToken.Algorithm.RsaUtil
+      iex> alias JsonWebTokenVivox.Algorithm.RsaUtil
       ...> path_to_keys = "test/fixtures/rsa"
       ...> private_key = RsaUtil.private_key(path_to_keys, "private_key.pem")
       ...> public_key = RsaUtil.public_key(path_to_keys, "public_key.pem")
-      ...> mac = JsonWebToken.Algorithm.Rsa.sign(:sha256, private_key, "signing_input")
-      ...> JsonWebToken.Algorithm.Rsa.verify?(mac, :sha256, public_key, "signing_input")
+      ...> mac = JsonWebTokenVivox.Algorithm.Rsa.sign(:sha256, private_key, "signing_input")
+      ...> JsonWebTokenVivox.Algorithm.Rsa.verify?(mac, :sha256, public_key, "signing_input")
       true
   """
   def verify?(mac, sha_bits, public_key, signing_input) do

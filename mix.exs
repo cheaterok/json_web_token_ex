@@ -1,9 +1,9 @@
-defmodule JsonWebToken.Mixfile do
+defmodule JsonWebTokenVivox.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :json_web_token,
+      app: :json_web_token_vivox,
       version: "0.2.10",
       elixir: "~> 1.4",
       build_embedded: Mix.env == :prod,

@@ -1,13 +1,13 @@
-defmodule JsonWebToken.Jwa do
+defmodule JsonWebTokenVivox.Jwa do
   @moduledoc """
   Choose a cryptographic algorithm to be used for a JSON Web Signature (JWS)
 
   see http://tools.ietf.org/html/rfc7518
   """
 
-  alias JsonWebToken.Algorithm.Ecdsa
-  alias JsonWebToken.Algorithm.Hmac
-  alias JsonWebToken.Algorithm.Rsa
+  alias JsonWebTokenVivox.Algorithm.Ecdsa
+  alias JsonWebTokenVivox.Algorithm.Hmac
+  alias JsonWebTokenVivox.Algorithm.Rsa
 
   @algorithms ~r{(HS|RS|ES)(256|384|512)?}i
 
@@ -16,7 +16,7 @@ defmodule JsonWebToken.Jwa do
 
   ## Example
       iex> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
-      ...> JsonWebToken.Jwa.sign("HS256", key, "signing_input")
+      ...> JsonWebTokenVivox.Jwa.sign("HS256", key, "signing_input")
       <<90, 34, 44, 252, 147, 130, 167, 173, 86, 191, 247, 93, 94, 12, 200, 30, 173, 115, 248, 89, 246, 222, 4, 213, 119, 74, 70, 20, 231, 194, 104, 103>>
   """
   def sign(algorithm, key, signing_input) do
@@ -30,7 +30,7 @@ defmodule JsonWebToken.Jwa do
   ## Example
       iex> mac = <<90, 34, 44, 252, 147, 130, 167, 173, 86, 191, 247, 93, 94, 12, 200, 30, 173, 115, 248, 89, 246, 222, 4, 213, 119, 74, 70, 20, 231, 194, 104, 103>>
       ...> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
-      ...> JsonWebToken.Jwa.verify?(mac, "HS256", key, "signing_input")
+      ...> JsonWebTokenVivox.Jwa.verify?(mac, "HS256", key, "signing_input")
       true
   """
   def verify?(mac, algorithm, key, signing_input) do
@@ -42,8 +42,8 @@ defmodule JsonWebToken.Jwa do
   Return a tuple with a valid encryption module and sha_bits; raise if `string` is not a supported algorithm
 
   ## Example
-      iex> JsonWebToken.Jwa.destructured_alg("HS256")
-      {JsonWebToken.Algorithm.Hmac, :sha256}
+      iex> JsonWebTokenVivox.Jwa.destructured_alg("HS256")
+      {JsonWebTokenVivox.Algorithm.Hmac, :sha256}
   """
   def destructured_alg(string) do
     validated_alg(Regex.run(@algorithms, string))

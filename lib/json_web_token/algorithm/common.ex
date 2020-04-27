@@ -1,4 +1,4 @@
-defmodule JsonWebToken.Algorithm.Common do
+defmodule JsonWebTokenVivox.Algorithm.Common do
   @moduledoc "Common algorithm sha_bits validation"
 
   @bits_to_integer %{

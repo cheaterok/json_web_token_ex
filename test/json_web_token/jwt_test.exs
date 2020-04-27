@@ -1,7 +1,7 @@
-defmodule JsonWebToken.JwtTest do
+defmodule JsonWebTokenVivox.JwtTest do
   use ExUnit.Case
 
-  alias JsonWebToken.Jwt
+  alias JsonWebTokenVivox.Jwt
 
   doctest Jwt
 
@@ -81,6 +81,6 @@ defmodule JsonWebToken.JwtTest do
   end
 
   test "config_header/1 excludes header that is not registered" do
-    assert Jwt.config_header(key: @hs256_key, notstandard: "value") == %{typ: "JWT", alg: "HS256"} 
+    assert Jwt.config_header(key: @hs256_key, notstandard: "value") == %{typ: "JWT", alg: "HS256"}
   end
 end

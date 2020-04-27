@@ -1,11 +1,11 @@
-defmodule JsonWebToken do
+defmodule JsonWebTokenVivox do
   @moduledoc """
   Top level interface, or API, for signing and verifying a JSON Web Token (JWT)
 
   see http://tools.ietf.org/html/rfc7519
   """
 
-  alias JsonWebToken.Jwt
+  alias JsonWebTokenVivox.Jwt
 
   @doc """
   Return a JSON Web Token (JWT), a string representing a set of claims as a JSON object that is
@@ -14,7 +14,7 @@ defmodule JsonWebToken do
   ## Example
       iex> claims = %{iss: "joe", exp: 1300819380, "http://example.com/is_root": true}
       ...> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
-      ...> JsonWebToken.sign(claims, %{key: key})
+      ...> JsonWebTokenVivox.sign(claims, %{key: key})
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.Ktfu3EdLz0SpuTIMpMoRZMtZsCATWJHeDEBGrsZE6LI"
 
   see http://tools.ietf.org/html/rfc7519#section-7.1
@@ -28,7 +28,7 @@ defmodule JsonWebToken do
   ## Example
       iex> jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.Ktfu3EdLz0SpuTIMpMoRZMtZsCATWJHeDEBGrsZE6LI"
       ...> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
-      ...> JsonWebToken.verify(jwt, %{key: key})
+      ...> JsonWebTokenVivox.verify(jwt, %{key: key})
       {:ok, %{iss: "joe", exp: 1300819380, "http://example.com/is_root": true}}
 
   see http://tools.ietf.org/html/rfc7519#section-7.2

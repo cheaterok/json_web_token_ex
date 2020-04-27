@@ -1,7 +1,7 @@
-defmodule JsonWebToken.Algorithm.EcdsaUtilTest do
+defmodule JsonWebTokenVivox.Algorithm.EcdsaUtilTest do
   use ExUnit.Case
 
-  alias JsonWebToken.Algorithm.EcdsaUtil
+  alias JsonWebTokenVivox.Algorithm.EcdsaUtil
 
   test "key_pair/1 default :secp256r1" do
     {public_key, private_key} = EcdsaUtil.key_pair

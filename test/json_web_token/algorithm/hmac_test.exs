@@ -1,7 +1,7 @@
-defmodule JsonWebToken.Algorithm.HmacTest do
+defmodule JsonWebTokenVivox.Algorithm.HmacTest do
   use ExUnit.Case
 
-  alias JsonWebToken.Algorithm.Hmac
+  alias JsonWebTokenVivox.Algorithm.Hmac
 
   doctest Hmac
 
